@@ -42,7 +42,7 @@ def combi(F,n):
 
 #Logical / transitive closure of a set by a set of implication rules
 def logicalClosure(Set,Rules):
-    S = Set.copy()
+    S = copy.copy(Set)
     fin = False    
     while not fin:
         s = len(S)
@@ -52,6 +52,7 @@ def logicalClosure(Set,Rules):
         if len(S) == s:
             fin = True         
     return set(S)
+
 
 
 '''
@@ -205,16 +206,66 @@ def NextDG(A, imp, nbAtt):
                 return B
 
 
-#Computes the canonical (Duquenne-Guigues) basis of a context
-def NextClosureDG(context):
-    Implis = []
-    A = logicalClosure(set([]),Implis)
-    while len(A) < context[1]:
-        B = Intent(Extent(A,context),context)
-        if A != B:
-            Implis.append([A,B])
-        A = NextDG(A, Implis, context[2])
-    return Implis
+
+#Flattens a multidimensional context
+def multi2Bi(context):
+    
+    #size of the new dimension
+    prod = 1
+    for i in range(2,len(context)):
+        prod = prod*context[i]
+        
+    ncontext = [[],context[1],prod]
+    elems = []
+    count = 0
+    
+    for t in context[0]:
+        T = np.array(t)
+        if list(T[1:]) not in elems:
+            elems.append(list(T[1:]))
+            ncontext[0].append([T[0],count])
+            count = count+1
+        else:
+            for e in range(len(elems)):
+                if elems[e] == list(T[1:]):
+                   ncontext[0].append([T[0],e])
+    
+    return ncontext,elems
+
+
+def aMinGenImp(Set,Implis):
+    G = copy.deepcopy(Set)
+    Ferm = logicalClosure(Set,Implis)
+    for s in Set:
+        G.remove(s)
+        if logicalClosure(G,Implis) != Ferm:
+            G.add(s)
+    return G
+
+
+
+def allMinGensImp(Set,Implis):
+    MG = [aMinGenImp(Set,Implis)]
+    for G in MG:
+        for I in Implis:
+            X = copy.deepcopy(G)
+            X = X.union(I[0])
+            X = X.union(I[1])
+            if X.issubset(Set):
+                Y = copy.deepcopy(I[0])
+                Z = copy.deepcopy(G)
+                Z = Z.difference(I[1])
+                Y = Y.union(Z)
+                flag = True
+                for H in MG:
+                    if H.issubset(Y):
+                        flag = False
+                if flag:
+                    NG = aMinGenImp(Y,Implis)
+                    MG.append(NG)
+    return MG
+        
+
 
 
 '''
@@ -247,6 +298,13 @@ def concepts(context):
 
 #Builds an implication base from the proper premises of a 2D context
 def properPremises(context):
+    
+    table = []
+    
+    if len(context) > 3:
+        context,table = multi2Bi(context)
+    
+    
     Attributes = set(np.array(context[0])[:,1])
     
     Base = []
@@ -285,7 +343,24 @@ def properPremises(context):
         
         os.remove("hypergraph_proper.io")
             
-    return Base
+    return Base,table
+
+
+
+#Computes the canonical (Duquenne-Guigues) basis of a context
+def NextClosureDG(context):
+    table = []
+    
+    if len(context) > 3:
+        context,table = multi2Bi(context)
+    Implis = []
+    A = logicalClosure(set([]),Implis)
+    while len(A) < context[1]:
+        B = Intent(Extent(A,context),context)
+        if A != B:
+            Implis.append([A,B])
+        A = NextDG(A, Implis, context[2])
+    return Implis,table
 
 
 
@@ -315,7 +390,7 @@ def buildNeighbouringRelation(concepts):
     return Edges
     
     
-#Computes a base of association rules of the context
+#Computes an association rules base of the context
 def associationRules(context):
     R = []
     Concepts = concepts(context)
