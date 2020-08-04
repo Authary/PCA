@@ -20,6 +20,7 @@ STRUCTURES
 ===============
 
 *FORMAL CONTEXTS*
+
 Formal contexts take the form of tuples (C,s_1,...,s_n) in which s_1,...,s_n are the sizes of the n dimensions (integers) and C is the incidence relation, i.e. a list of n-elements lists. The elements of dimensions are integers.
 Example:
 	0	1	2	3	4
@@ -32,24 +33,28 @@ is represented as ([[0,0],[0,1],[1,1],[1,2],[1,3],[2,1],[2,3],[2,4],[3,2],[3,4],
 
 
 *CONCEPTS*
+
 Formal concepts are lists containing n sets.
 Example:
 The formal concept (12,13) is represented by [{1, 2}, {1, 3}].
 
 
 *IMPLICATIONS*
+
 Implications are lists containing two sets, the premise and the conclusion.
 Example:
 The implication 12 -> 123, valid in the previous context, is represented by [set([12]),set([123])].
 
 
 *ASSOCIATION RULES*
+
 Association rules are lists containing two sets, the premise and the conclusion, and a float, the confidence.
 Example:
 The association rule 1 -> 13, with confidence 2/3 in the previous context, is represented by [{1}, {1, 3}, 0.6666666666666666].
 
 
 *MAPPING TABLE*
+
 A dictionary mapping lists to integers.
 Example:
 {0: [0, 0],
@@ -66,45 +71,47 @@ Example:
 Useful Functions
 ================
 
-concepts(context)
+*concepts(context)*
+
 INPUT: a formal context
+
 OUTPUT: a list containing all the formal concepts of the context
 
 
-properPremises(context)
+*properPremises(context)*
 INPUT: a formal context
 OUTPUT: a list containing the implications of the proper premises basis AND a dictionary mapping lists to integers. for multidimensional contexts
 WARNING : If the context contains more than 2 dimensions, it is transformed into a bidimensional context by replacing the n-1 last dimensions by their cartesian product. Use the dictionary to retrieve the elements of the cartesian product.
 
 
-NextClosureDG(context)
+*NextClosureDG(context)*
 INPUT: a formal context
 OUTPUT: a list containing the implications of the canonical (Duquenne-Guigues) basis AND a dictionary mapping lists to integers for multidimensional contexts
 WARNING : If the context contains more than 2 dimensions, it is transformed into a bidimensional context by replacing the n-1 last dimensions by their cartesian product. Use the dictionary to retrieve the elements of the cartesian product. Uses the Next Closure algorithm.
 
 
-associationRules(context)
+*associationRules(context)*
 INPUT: a formal context
 OUTPUT: a list of association rules
 
 
-buildNeighbouringRelation(concepts)
+*buildNeighbouringRelation(concepts)*
 INPUT: a list of concepts
 OUTPUT: a list of 2-elements lists representing the covering relation of the set of concepts partially ordered by the inclusion relation on their last n-1 components
 WARNING: Naive algorithm, can take some time.
 
 
-logicalClosure(Set,Rules)
+*logicalClosure(Set,Rules)*
 INPUT: a set (Set) and a list of implications (Rules)
 OUTPUT: the logical closure of Set by Rules
 
 
-allMinGensImp(Set,Implis)
+*allMinGensImp(Set,Implis)*
 INPUT: a set (Set) closed under logical closure by a list of implications (Implis)
 OUTPUT: a list containing the minimal generators of Set under Implis
 
 
-minTrans(hypergraph)
+*minTrans(hypergraph)*
 INPUT: a hypergraph in the form of a list of integer lists (edges)
 OUTPUT: the minimal transversals of the hypergraph
 WARNING: Calls shd.exe.
