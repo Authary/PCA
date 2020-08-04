@@ -16,7 +16,7 @@ LEGAL STUFF
 ====
 
 You are free to use this module.
-If you do something interesting with it, please tell Alexandre Bazin.
+If you do something interesting with it, please tell Alexandre Bazin: contact [at] alexandrebazin.com.
 
 
 STRUCTURES
