@@ -8,9 +8,9 @@ Functionalities:
 -Concepts -> Covering relation of the set of concepts partially ordered by the inclusion relation on their last n-1 components
 -Set x Implications -> Minimal generators of Set under logical closure by the implications
 
-===============
+
 LEGAL STUFF
-===============
+
 
 You are free to use this module.
 If you do something interesting with it, please tell Alexandre Bazin.
