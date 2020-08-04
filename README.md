@@ -1,3 +1,6 @@
+Polyadic concept analysis
+====
+
 This module provides functions for computing formal concepts and rules bases in both bidimensional and multidimensional formal contexts.
 
 Functionalities:<br/>
