@@ -71,49 +71,47 @@ Example:
 Useful Functions
 ================
 
-*concepts(context)*
-
-INPUT: a formal context
-
+*concepts(context)*<br/>
+INPUT: a formal context<br/>
 OUTPUT: a list containing all the formal concepts of the context
 
 
-*properPremises(context)*
-INPUT: a formal context
-OUTPUT: a list containing the implications of the proper premises basis AND a dictionary mapping lists to integers. for multidimensional contexts
+*properPremises(context)*<br/>
+INPUT: a formal context<br/>
+OUTPUT: a list containing the implications of the proper premises basis AND a dictionary mapping lists to integers. for multidimensional contexts<br/>
 WARNING : If the context contains more than 2 dimensions, it is transformed into a bidimensional context by replacing the n-1 last dimensions by their cartesian product. Use the dictionary to retrieve the elements of the cartesian product.
 
 
-*NextClosureDG(context)*
-INPUT: a formal context
-OUTPUT: a list containing the implications of the canonical (Duquenne-Guigues) basis AND a dictionary mapping lists to integers for multidimensional contexts
+*NextClosureDG(context)*<br/>
+INPUT: a formal context<br/>
+OUTPUT: a list containing the implications of the canonical (Duquenne-Guigues) basis AND a dictionary mapping lists to integers for multidimensional contexts<br/>
 WARNING : If the context contains more than 2 dimensions, it is transformed into a bidimensional context by replacing the n-1 last dimensions by their cartesian product. Use the dictionary to retrieve the elements of the cartesian product. Uses the Next Closure algorithm.
 
 
-*associationRules(context)*
-INPUT: a formal context
+*associationRules(context)*<br/>
+INPUT: a formal context<br/>
 OUTPUT: a list of association rules
 
 
-*buildNeighbouringRelation(concepts)*
-INPUT: a list of concepts
-OUTPUT: a list of 2-elements lists representing the covering relation of the set of concepts partially ordered by the inclusion relation on their last n-1 components
+*buildNeighbouringRelation(concepts)*<br/>
+INPUT: a list of concepts<br/>
+OUTPUT: a list of 2-elements lists representing the covering relation of the set of concepts partially ordered by the inclusion relation on their last n-1 components<br/>
 WARNING: Naive algorithm, can take some time.
 
 
-*logicalClosure(Set,Rules)*
-INPUT: a set (Set) and a list of implications (Rules)
+*logicalClosure(Set,Rules)*<br/>
+INPUT: a set (Set) and a list of implications (Rules)<br/>
 OUTPUT: the logical closure of Set by Rules
 
 
-*allMinGensImp(Set,Implis)*
-INPUT: a set (Set) closed under logical closure by a list of implications (Implis)
+*allMinGensImp(Set,Implis)*<br/>
+INPUT: a set (Set) closed under logical closure by a list of implications (Implis)<br/>
 OUTPUT: a list containing the minimal generators of Set under Implis
 
 
-*minTrans(hypergraph)*
-INPUT: a hypergraph in the form of a list of integer lists (edges)
-OUTPUT: the minimal transversals of the hypergraph
+*minTrans(hypergraph)*<br/>
+INPUT: a hypergraph in the form of a list of integer lists (edges)<br/>
+OUTPUT: the minimal transversals of the hypergraph<br/>
 WARNING: Calls shd.exe.
 
 
@@ -123,9 +121,9 @@ EXAMPLE
 
 context = ([[0,0,0],[0,0,1],[0,1,0],[1,0,0],[2,2,2]],3,3,3)
 
-#Compute the formal concepts
-concepts  =  concepts(context)
-print(concepts)
+#Compute the formal concepts<br/>
+concepts  =  concepts(context)<br/>
+print(concepts)<br/>
 [[{0, 1, 2}, {0, 1, 2}, set()],
  [{0, 1}, {0}, {0}],
  [{0}, {0, 1}, {0}],
@@ -134,9 +132,9 @@ print(concepts)
  [set(), {0, 1, 2}, {0, 1, 2}],
  [{2}, {2}, {2}]]
 
-#Compute the Duquenne-Guigues basis
-Implis, table = NextClosureDG(context)
-print(Implis)
+#Compute the Duquenne-Guigues basis<br/>
+Implis, table = NextClosureDG(context)<br/>
+print(Implis)<br/>
 [[{7}, {0, 1, 2, 3, 4, 5, 6, 7, 8}],
  [{6}, {0, 1, 2, 3, 4, 5, 6, 7, 8}],
  [{5}, {0, 1, 2, 3, 4, 5, 6, 7, 8}],
@@ -144,8 +142,8 @@ print(Implis)
  [{3}, {0, 1, 3}],
  [{2}, {0, 1, 2, 3, 4, 5, 6, 7, 8}],
  [{1}, {0, 1, 3}],
- [{0, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}]]
-print(table)
+ [{0, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}]]<br/>
+print(table)<br/>
 {0: [0, 0],
  1: [0, 1],
  2: [0, 2],
@@ -156,7 +154,7 @@ print(table)
  7: [2, 1],
  8: [2, 2]}
 
-#Print the fifth implication with the tuples
-print([table[x] for x in Implis[4][0]]," -> ",[table[x] for x in Implis[4][1]])
+#Print the fifth implication with the tuples<br/>
+print([table[x] for x in Implis[4][0]]," -> ",[table[x] for x in Implis[4][1]])<br/>
 [[1, 0]]  ->  [[0, 0], [0, 1], [1, 0]]
 
