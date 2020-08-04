@@ -122,8 +122,7 @@ OUTPUT: the minimal transversals of the hypergraph<br/>
 WARNING: Calls shd.exe.
 
 
-
-EXAMPLE
+HOW TO USE
 ================
 
 context = ([[0,0,0],[0,0,1],[0,1,0],[1,0,0],[2,2,2]],3,3,3)
