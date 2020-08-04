@@ -26,12 +26,12 @@ STRUCTURES
 
 Formal contexts take the form of tuples (C,s_1,...,s_n) in which s_1,...,s_n are the sizes of the n dimensions (integers) and C is the incidence relation, i.e. a list of n-elements lists. The elements of dimensions are integers.
 Example:
-	0	1	2	3	4
-0	x	x
-1		x	x	x
-2		x		x	x
-3			x		x
-4				x	x
+	0	1	2	3	4<\br>
+0	x	x			<\br>
+1		x	x	x<\br>
+2		x		x	x<\br>
+3			x		x<\br>
+4				x	x<\br>
 is represented as ([[0,0],[0,1],[1,1],[1,2],[1,3],[2,1],[2,3],[2,4],[3,2],[3,4],[4,3],[4,4]],5,5).
 
 
