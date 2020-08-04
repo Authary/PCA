@@ -1,11 +1,11 @@
 This module provides functions for computing formal concepts and rules bases in both bidimensional and multidimensional formal contexts.
 
-Functionalities:
--Context -> Concepts
--Context -> Canonical implication basis
--Context -> Proper premises implication basis
--Context -> Association rules basis
--Concepts -> Covering relation of the set of concepts partially ordered by the inclusion relation on their last n-1 components
+Functionalities:<br/>
+-Context -> Concepts<br/>
+-Context -> Canonical implication basis<br/>
+-Context -> Proper premises implication basis<br/>
+-Context -> Association rules basis<br/>
+-Concepts -> Covering relation of the set of concepts partially ordered by the inclusion relation on their last n-1 components<br/>
 -Set x Implications -> Minimal generators of Set under logical closure by the implications
 
 
