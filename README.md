@@ -15,7 +15,7 @@ Functionalities:<br/>
 LEGAL STUFF
 ====
 
-You are free to use this module.
+You are free to use this module.<br/>
 If you do something interesting with it, please tell Alexandre Bazin: contact [at] alexandrebazin [dot] com.
 
 
@@ -127,9 +127,10 @@ HOW TO USE
 
 context = ([[0,0,0],[0,0,1],[0,1,0],[1,0,0],[2,2,2]],3,3,3)
 
-#Compute the formal concepts<br/>
-concepts  =  concepts(context)<br/>
-print(concepts)<br/>
+```python
+#Compute the formal concepts
+concepts  =  concepts(context)
+print(concepts)
 [[{0, 1, 2}, {0, 1, 2}, set()],
  [{0, 1}, {0}, {0}],
  [{0}, {0, 1}, {0}],
@@ -138,8 +139,8 @@ print(concepts)<br/>
  [set(), {0, 1, 2}, {0, 1, 2}],
  [{2}, {2}, {2}]]
 
-#Compute the Duquenne-Guigues basis<br/>
-Implis, table = NextClosureDG(context)<br/>
+#Compute the Duquenne-Guigues basis
+Implis, table = NextClosureDG(context)
 print(Implis)<br/>
 [[{7}, {0, 1, 2, 3, 4, 5, 6, 7, 8}],
  [{6}, {0, 1, 2, 3, 4, 5, 6, 7, 8}],
@@ -148,8 +149,8 @@ print(Implis)<br/>
  [{3}, {0, 1, 3}],
  [{2}, {0, 1, 2, 3, 4, 5, 6, 7, 8}],
  [{1}, {0, 1, 3}],
- [{0, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}]]<br/>
-print(table)<br/>
+ [{0, 8}, {0, 1, 2, 3, 4, 5, 6, 7, 8}]]
+print(table)
 {0: [0, 0],
  1: [0, 1],
  2: [0, 2],
@@ -160,7 +161,7 @@ print(table)<br/>
  7: [2, 1],
  8: [2, 2]}
 
-#Print the fifth implication with the tuples<br/>
-print([table[x] for x in Implis[4][0]]," -> ",[table[x] for x in Implis[4][1]])<br/>
+#Print the fifth implication with the tuples
+print([table[x] for x in Implis[4][0]]," -> ",[table[x] for x in Implis[4][1]])
 [[1, 0]]  ->  [[0, 0], [0, 1], [1, 0]]
-
+```
