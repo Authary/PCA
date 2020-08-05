@@ -141,7 +141,7 @@ print(concepts)
 
 #Compute the Duquenne-Guigues basis
 Implis, table = NextClosureDG(context)
-print(Implis)<br/>
+print(Implis)
 [[{7}, {0, 1, 2, 3, 4, 5, 6, 7, 8}],
  [{6}, {0, 1, 2, 3, 4, 5, 6, 7, 8}],
  [{5}, {0, 1, 2, 3, 4, 5, 6, 7, 8}],
