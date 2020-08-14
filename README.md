@@ -1,7 +1,7 @@
 POLYADIC CONCEPT ANALYSIS
 ====
 
-This module provides functions for computing formal concepts and rules bases in both bidimensional and multidimensional formal contexts.
+This module provides functions for computing formal concepts and rules bases in both bidimensional and multidimensional formal contexts. It makes extensive use of Takeaki Uno's software for computing minimal transversals of hypergraphs (http://research.nii.ac.jp/~uno/dualization.html).
 
 Functionalities:<br/>
 -Context -> Concepts<br/>
