@@ -12,11 +12,11 @@ Functionalities:<br/>
 -Set x Implications -> Minimal generators of Set under logical closure by the implications
 
 It is based on, among other papers,<br/>
--On Implication Bases in n-Lattices. Alexandre Bazin. Discrete Applied Mathematics 2020.<br/>
--A Depth-first Search Algorithm for Computing Pseudo-closed Sets. Alexandre Bazin. Discrete Applied Mathematics 2018.<br/>
--Représentation condensée de règles d’association multidimensionnelles. Alexandre Bazin, Aurélie Bertaux, Christophe Nicolle. EGC 2019.<br/>
--Reduction and Introducers in d-contexts. Alexandre Bazin and Giacomo Kahn. ICFCA 2019.<br/>
--k-Partite Graphs as Contexts. Alexandre Bazin and Aurélie Bertaux. CLA 2018.
+-*On Implication Bases in n-Lattices*. Alexandre Bazin. Discrete Applied Mathematics 2020.<br/>
+-*A Depth-first Search Algorithm for Computing Pseudo-closed Sets*. Alexandre Bazin. Discrete Applied Mathematics 2018.<br/>
+-*Représentation condensée de règles d’association multidimensionnelles*. Alexandre Bazin, Aurélie Bertaux, Christophe Nicolle. EGC 2019.<br/>
+-*Reduction and Introducers in d-contexts*. Alexandre Bazin and Giacomo Kahn. ICFCA 2019.<br/>
+-*k-Partite Graphs as Contexts*. Alexandre Bazin and Aurélie Bertaux. CLA 2018.
 
 
 LEGAL STUFF
