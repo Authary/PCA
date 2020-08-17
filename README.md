@@ -8,6 +8,7 @@ Functionalities:<br/>
 -Context -> Canonical implication basis<br/>
 -Context -> Proper premises implication basis<br/>
 -Context -> Association rules basis<br/>
+-Context -> Introducer concepts<br/>
 -Concepts -> Covering relation of the set of concepts partially ordered by the inclusion relation on their last n-1 components<br/>
 -Set x Implications -> Minimal generators of Set under logical closure by the implications
 
@@ -127,6 +128,16 @@ OUTPUT: a list containing the minimal generators of Set under Implis
 INPUT: a hypergraph in the form of a list of integer lists (edges)<br/>
 OUTPUT: the minimal transversals of the hypergraph<br/>
 WARNING: Calls shd.exe.
+
+
+*introducersDimension(context,dimension)*<br/>
+INPUT: a formal context and a dimension ({0,...n})<br/>
+OUTPUT: the list of concepts that introduce an element of the dimension
+
+
+*allIntroducers(context)*<br/>
+INPUT: a formal context<br/>
+OUTPUT: the list of all introducer concepts of the context
 
 
 HOW TO USE
