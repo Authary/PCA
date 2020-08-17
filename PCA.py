@@ -40,6 +40,20 @@ def combi(F,n):
 
 
 
+#Cartesian product of a family F of sets and a set S
+def combiSet(F,S):
+    R = []
+
+    for f in F:
+        for x in S:
+            f2 = copy.deepcopy(f)
+            f2.append(int(x))
+            R.append(f2)
+    
+    return R
+
+
+
 #Logical / transitive closure of a set by a set of implication rules
 def logicalClosure(Set,Rules):
     S = copy.copy(Set)
@@ -210,25 +224,23 @@ def NextDG(A, imp, nbAtt):
 #Flattens a multidimensional context
 def multi2Bi(context):
     
+    elems = {}
     #size of the new dimension
-    prod = 1
-    for i in range(2,len(context)):
-        prod = prod*context[i]
+    C = [[]]
+    for i in range(len(context)-2):
+        C = combi(C,context[i+2])
+    for c in range(len(C)):
+        elems[c] = C[c]
         
-    ncontext = [[],context[1],prod]
-    elems = []
-    count = 0
+    ncontext = [[],context[1],len(C)]
     
     for t in context[0]:
         T = np.array(t)
-        if list(T[1:]) not in elems:
-            elems.append(list(T[1:]))
-            ncontext[0].append([T[0],count])
-            count = count+1
-        else:
-            for e in range(len(elems)):
-                if elems[e] == list(T[1:]):
-                   ncontext[0].append([T[0],e])
+        for i in range(len(C)):
+            if elems[i] == list(T[1:]):
+                ncontext[0].append([T[0],i])
+                break
+
     
     return ncontext,elems
 
@@ -264,7 +276,45 @@ def allMinGensImp(Set,Implis):
                     NG = aMinGenImp(Y,Implis)
                     MG.append(NG)
     return MG
+
+
+#Returns slices of a context that correspond to an element of a dimension
+def sliceContext(context,element,dimension):
+    R = []
+    for X in context[0]:
+        if X[dimension] == element:
+            Y = copy.deepcopy(X)
+            Y.pop(dimension)
+            R.append(Y)
+    C = list(copy.deepcopy(context))
+    C[0] = R
+    C.pop(dimension+1)
+    return tuple(C)
+
+
+
+#Returns the support on a dimension of a n-1 concept
+def support(concept,context,dimension):
+    R=set([])
+    
+    prod = [[]]
+    for C in concept:
+        prod = combiSet(prod,C)
         
+    for e in range(context[dimension+1]):
+    
+        oui = True
+        for X in prod:
+            Y = copy.deepcopy(X)
+            Y.insert(dimension,e)
+            if Y not in context[0]:
+                oui = False
+                break
+        
+        if oui:
+          R.add(e)
+          
+    return R
 
 
 
@@ -303,7 +353,6 @@ def properPremises(context):
     
     if len(context) > 3:
         context,table = multi2Bi(context)
-    
     
     Attributes = set(np.array(context[0])[:,1])
     
@@ -400,7 +449,50 @@ def associationRules(context):
     return R
 
 
-    
-    
-    
-    
+#Computes the concepts that introduce elements of a particular dimension
+def introducersDimension(context,dimension):
+    R = []
+    for e in range(context[dimension+1]):
+        contS = sliceContext(context,e,dimension)
+        concS = concepts(contS)
+        for C in concS:
+            Supp = support(C,context,dimension)
+            C.insert(dimension,Supp)
+            
+            #check whether C is already in R and add if not
+            oui = True
+            for r in R:
+                pareils = True
+                for x in range(len(r)):
+                    if set(r[x]) != set(C[x]):
+                        pareils = False
+                if pareils:
+                    oui = False
+            if oui:
+                R.append(C)
+            
+            
+    return list(R)
+
+
+#Computes all the introducer concepts
+def allIntroducers(context):
+    nbDim = len(context)-1
+    R = []
+    for i in range(nbDim):
+        I = introducersDimension(context,i)
+        
+        R2 = copy.deepcopy(R)
+        for C in I:
+            oui = True
+            for r in R2:
+                pareils = True
+                for x in range(len(r)):
+                    if set(r[x]) != set(C[x]):
+                        pareils = False
+                if pareils:
+                    oui = False
+            if oui:
+                R.append(C)
+    return R
+
