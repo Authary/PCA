@@ -12,6 +12,12 @@ import copy
 import numpy as np
 
 
+pca_shd_exec_path = "/home/alexandre/Documents/Recherche/Code/PolyConcAnalysis/PCA/shd"
+
+def set_shd_path(p):
+    pca_shd_exec_path = p
+
+
 '''
 Set manipulation functions
 '''
@@ -112,22 +118,24 @@ def trans2Concept(trans,context):
 
 
 def minTrans(hypergraph):
-    args = ["shd.exe","0",hypergraph,"-"]
+    args = [pca_shd_exec_path,"0",hypergraph,"-"]
     p = subprocess.Popen(args, stdin=PIPE, stdout=PIPE, text=True)
     M =  p.communicate()[0]
     
     R = []
     
-    T = M.split("\n")    
-    maxiC = 0
-    for x in T:
-        c = x.split(" ")
-        R.append(c)
-        if len(c) > maxiC:
-            maxiC = len(c)
-    for i in range(maxiC+3):
-        R.pop(len(R)-1)
-        
+    T = M.split("\n")   
+    if len(T) > 1: 
+        maxiC = 0
+        for x in T:
+            c = x.split(" ")
+            R.append(c)
+            if len(c) > maxiC:
+                maxiC = len(c)
+        for i in range(maxiC+3):
+            R.pop(len(R)-1)
+    else:
+        print("shd did not return anything\n")
     return R
                 
 
@@ -496,3 +504,101 @@ def allIntroducers(context):
                 R.append(C)
     return R
 
+
+
+
+'''
+HubRCA
+'''
+
+def writeConcept(c,names):
+    S = '['
+    for comp in range(len(c)):
+        S += '['
+        for x in c[comp]:
+            S += names[comp][x]
+        S+= ']'
+    S += ']'
+    return S
+
+
+#contextFamily: list of contexts (the first dimension of those contexts is the Object dimension)
+#elementNames: true name of elements in the contexts of the contextFamily, of the form [[[c1_dim1_name1,c1_dim1,name2],[c1_dim2,name1]],[[c2_dim1,name1],[c2_dim2,name1],[c2_dim3,name1]]]
+#relations: dictionary relation_name => [[x1,y1],[x2,y2],[x3,y3]]
+#strategy: list of quadruples (lists) of the form [relation_name,source_context_id,target_context_id,quantificator] with quantificator = 0 for \exists and 1 for \forall (the id of a context is its index in the contextFamily)
+#depth: number of iterations
+def HubRCA(contextFamily,elementNames,relations,strategy,depth):
+    #rajouter les \circlearrowleft (comme dernier élément d'une dimension)
+    CF = copy.copy(contextFamily)
+    CF2 = []
+    idCont = 0
+    for context in CF:
+        for size in range(len(context)):
+            if size > 1:
+                context = list(context)
+                context[size] += 1
+                elementNames[idCont][size-1] += ["Disj"]
+                newCroix = []
+                for croix in context[0]:
+                    nCroix = copy.copy(croix)
+                    nCroix[size-1] = context[size] -1
+                    ajout = True
+                    for cr in newCroix:
+                        if nCroix == cr:
+                            ajout = False
+                    if ajout:
+                        newCroix += [nCroix]
+                context[0] += newCroix
+                context = tuple(context)
+                CF2 += [context]
+        idCont += 1
+                
+    CF = CF2
+    
+
+    iteration = 0
+    while iteration < depth:
+        for [name,source,target,quant] in strategy:
+            conceptsTarget = concepts(CF[target])
+            #création des attributs relationnels
+            attributeNames = []
+            for c in conceptsTarget:
+                if quant == 0:
+                    nomAttribut = "exists."+name+"."+str(writeConcept(c,elementNames[target]))
+                else:
+                    nomAttribut = "forall."+name+"."+str(writeConcept(c,elementNames[target]))
+                attributeNames += [nomAttribut]
+            attributeNames += ["Disj"]
+            #ajout d'une nouvelle dimension
+            CF[source] += (len(conceptsTarget)+1,)
+            elementNames[source] += [attributeNames]
+            
+            #ajout des nouvelles croix
+            newCroix = []
+            for croix in CF[source][0]:
+                newCroix += [croix+[len(attributeNames)-1]]
+                for att in range(len(conceptsTarget)):
+                    targs = set([tar for [x,tar] in relations[name] if x == croix[0]])
+                    if quant == 0:
+                        if len(targs) > 0 and not targs.isdisjoint(set(conceptsTarget[att][0])):
+                            ajout = True
+                            for cr in newCroix:
+                                if croix+[att] == cr:
+                                    ajout = False
+                            if ajout:
+                                newCroix += [croix+[att]]
+                    else:
+                        if len(targs) > 0 and targs.issubset(set(conceptsTarget[att][0])):
+                            ajout = True
+                            for cr in newCroix:
+                                if croix+[att] == cr:
+                                    ajout = False
+                            if ajout:
+                                newCroix += [croix+[att]]
+            CF[source] = list(CF[source])
+            CF[source][0] = newCroix
+            CF[source] = tuple(CF[source])
+
+        iteration += 1
+
+    return [concepts(conc) for conc in CF]
