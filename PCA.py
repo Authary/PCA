@@ -12,7 +12,7 @@ import copy
 import numpy as np
 
 
-pca_shd_exec_path = "/home/alexandre/Documents/Recherche/Code/PolyConcAnalysis/PCA/shd"
+pca_shd_exec_path = "shd"
 
 def set_shd_path(p):
     pca_shd_exec_path = p
