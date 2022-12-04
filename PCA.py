@@ -412,7 +412,7 @@ def NextClosureDG(context):
         context,table = multi2Bi(context)
     Implis = []
     A = logicalClosure(set([]),Implis)
-    while len(A) < context[1]:
+    while len(A) < context[2]:
         B = Intent(Extent(A,context),context)
         if A != B:
             Implis.append([A,B])
