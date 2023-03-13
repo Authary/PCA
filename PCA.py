@@ -602,3 +602,75 @@ def HubRCA(contextFamily,elementNames,relations,strategy,depth):
         iteration += 1
 
     return [concepts(conc) for conc in CF]
+
+
+#graph = (Edges,partition1,...,partitionk)
+#the names of vertices are all distinct
+def graphToContext(graph):
+    relation = []
+    names = []
+    for e in graph[0]:
+        newEdge = []
+        newEdge2 = []
+        newEdge3 = []
+        for d in range(1,len(graph)):
+            if e[0] in graph[d]:
+                newEdge += [e[0]]
+                newEdge2 += ["v"+str(d)]
+                newEdge3 += [e[0]]
+            elif e[1] in graph[d]:
+                newEdge += [e[1]]
+                newEdge2 += [e[1]]
+                newEdge3 += ["v"+str(d)]
+            else:
+                newEdge += ["v"+str(d)]
+                newEdge2 += ["v"+str(d)]
+                newEdge3 += ["v"+str(d)]
+        relation += [newEdge]
+
+        if newEdge2 not in relation:
+            relation += [newEdge2]
+        if newEdge3 not in relation:
+            relation += [newEdge3]
+    newEdgeVide = []
+    for d in range(1,len(graph)):
+        newEdgeVide += ["v"+str(d)]
+    relation += [newEdgeVide]
+
+    for d in range(1,len(graph)):
+        newNames = {}
+        i = 0
+        for n in graph[d]:
+            newNames[i] = n
+            for e in relation:
+                if e[d-1] == n:
+                    e[d-1] = i
+            i = i+1
+        newNames[i] = "v"+str(d)
+        for e in relation:
+                if e[d-1] == "v"+str(d):
+                    e[d-1] = i
+        names += [newNames]
+    
+    context = [relation]
+    for d in range(1,len(graph)):
+        context += [len(graph[d])+1]
+
+    #ajouter les relations n-aire issues des n-cliques
+    prod = [[]]
+    for d in range(1,len(context)):
+        prod = combiSet(prod,list(range(context[d]-1)))
+    for i in range(len(context)-2):
+        for p in prod:
+            add = 1
+            for x in range(len(p)):
+                if p[x] != context[x+1]-1 and add == 1:
+                    p2 = copy.copy(p)
+                    p2[x] = context[x+1]-1
+                    if p2 not in context[0]:
+                        add = 0
+            if add == 1 and p not in context[0]:
+                context[0] += [p]
+                
+
+    return context,names
