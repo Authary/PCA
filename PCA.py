@@ -397,6 +397,9 @@ def properPremises(context):
                 q.append(int(e))
             if not (len(q) == 1 and q[0] == a):
                 Base.append([set(q),set([a])])
+        if len(Prem) == 0:
+            Supports.append(context[1])
+            Base.append([set(),set([a])])
         
         os.remove("hypergraph_proper.io")
             
